@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Вход — Контроль присутствия</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body class="login-body">
+  <form class="login-card" method="post" action="/login">
+    <h1>Контроль присутствия</h1>
+    <p class="muted">Отдел кадров — вход в систему</p>
+    <p id="err" class="error" hidden>Неверный логин или пароль</p>
+    <label>Логин
+      <input name="username" autocomplete="username" required autofocus>
+    </label>
+    <label>Пароль
+      <input name="password" type="password" autocomplete="current-password" required>
+    </label>
+    <button type="submit">Войти</button>
+  </form>
+  <script>
+    if (location.search.indexOf("e=1") !== -1) {
+      document.getElementById("err").hidden = false;
+    }
+  </script>
+</body>
+</html>

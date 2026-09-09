@@ -1,0 +1,24 @@
+services:
+  web:
+    build: .
+    container_name: kadry
+    ports:
+      - "${HOST_PORT:-8163}:8000"
+    environment:
+      TZ: "${TZ:-Europe/Minsk}"
+      HR_USERNAME: "${HR_USERNAME:-kadry}"
+      HR_PASSWORD: "${HR_PASSWORD:-kadry}"
+      SECRET_KEY: "${SECRET_KEY:-please-change-this-to-a-long-random-string}"
+      LUNCH_MINUTES: "${LUNCH_MINUTES:-45}"
+      ARRIVAL_WINDOW_START: "${ARRIVAL_WINDOW_START:-08:00}"
+      ARRIVAL_WINDOW_END: "${ARRIVAL_WINDOW_END:-09:00}"
+      REQUIRED_PRESENCE_MON_THU: "${REQUIRED_PRESENCE_MON_THU:-9:00}"
+      REQUIRED_PRESENCE_FRI: "${REQUIRED_PRESENCE_FRI:-8:15}"
+      SESSION_HOURS: "${SESSION_HOURS:-12}"
+      DATA_DIR: /app/data
+    volumes:
+      - kadry_data:/app/data
+    restart: unless-stopped
+
+volumes:
+  kadry_data:

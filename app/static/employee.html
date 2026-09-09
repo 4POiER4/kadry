@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Время прихода и ухода</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div><strong>Время прихода и ухода</strong></div>
+    <a class="link-btn" href="/hr">Вход для кадров</a>
+  </header>
+
+  <main class="emp-main">
+    <section class="card">
+      <div id="status-line" class="muted">Загрузка…</div>
+
+      <form id="lookup-form" class="row" style="margin-top:1rem">
+        <input id="q" type="search" placeholder="Ваша фамилия или табельный номер" autocomplete="off" autofocus>
+        <button type="submit">Показать</button>
+      </form>
+      <p id="hint" class="muted" style="margin:.5rem 0 0">
+        Введите фамилию (можно часть) или табельный номер — минимум 3 символа.
+      </p>
+      <p id="err" class="error" hidden></p>
+    </section>
+
+    <section id="results"></section>
+  </main>
+
+  <template id="card-tpl">
+    <div class="card result-card">
+      <div class="rc-head">
+        <div>
+          <div class="rc-name"></div>
+          <div class="rc-tab muted"></div>
+        </div>
+        <span class="chip"></span>
+      </div>
+      <div class="rc-grid">
+        <div class="rc-cell">
+          <small>Вы пришли</small>
+          <b class="rc-in"></b>
+        </div>
+        <div class="rc-cell rc-leave">
+          <small>Уйти не раньше</small>
+          <b class="rc-out"></b>
+        </div>
+      </div>
+      <div class="rc-reason muted"></div>
+    </div>
+  </template>
+
+  <script src="/static/employee.js"></script>
+</body>
+</html>

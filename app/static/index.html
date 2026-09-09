@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Контроль присутствия сотрудников</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <strong>Контроль присутствия</strong>
+      <span class="muted">— гибкий график</span>
+    </div>
+    <div class="topbar-actions">
+      <a class="link-btn" href="/" target="_blank">Страница сотрудников</a>
+      <form method="post" action="/logout">
+        <button class="link-btn" type="submit">Выйти</button>
+      </form>
+    </div>
+  </header>
+
+  <main>
+    <div id="publish-banner" class="card publish-banner" hidden>
+      <span id="publish-text"></span>
+      <button id="clear-publish" class="link-btn">Убрать для сотрудников</button>
+    </div>
+
+    <section id="upload-card" class="card">
+      <h2>1. Загрузите выгрузку из проходной</h2>
+      <p class="muted">
+        Форматы: .xlsx, .xls, .csv. Время прихода и ухода берётся из столбцов
+        <b>E (Вход)</b> и <b>F (Выход)</b>. После обработки файл сразу становится
+        доступен сотрудникам на странице «Во сколько мне уйти».
+      </p>
+
+      <div id="drop" class="dropzone">
+        <input type="file" id="file" accept=".xlsx,.xls,.csv,.txt" hidden>
+        <p><b>Перетащите файл сюда</b> или нажмите, чтобы выбрать</p>
+        <p id="fname" class="muted"></p>
+      </div>
+
+      <div class="row">
+        <label>День недели графика
+          <select id="daytype">
+            <option value="auto">Определить автоматически</option>
+            <option value="week">Понедельник–четверг</option>
+            <option value="fri">Пятница</option>
+          </select>
+        </label>
+        <button id="go" disabled>Обработать</button>
+      </div>
+      <p id="err" class="error" hidden></p>
+    </section>
+
+    <section id="result" hidden>
+      <div class="card meta-card">
+        <div id="meta-line"></div>
+        <div id="warn-line" class="warn" hidden></div>
+        <div class="summary">
+          <div class="pill total"><span id="c-total">0</span><small>всего</small></div>
+          <div class="pill green"><span id="c-green">0</span><small>норма</small></div>
+          <div class="pill onwork"><span id="c-onwork">0</span><small>на работе</small></div>
+          <div class="pill red"><span id="c-red">0</span><small>нарушения</small></div>
+          <div class="pill nodata"><span id="c-nodata">0</span><small>нет данных</small></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="row toolbar">
+          <input id="search" type="search" placeholder="Поиск по ФИО или таб. №">
+          <select id="statusfilter">
+            <option value="all">Все статусы</option>
+            <option value="green">Только норма</option>
+            <option value="onwork">Только на работе</option>
+            <option value="red">Только нарушения</option>
+            <option value="nodata">Только нет данных</option>
+          </select>
+          <span class="spacer"></span>
+          <button id="download" class="secondary">Скачать Excel с подсветкой</button>
+          <button id="reset" class="link-btn">Загрузить другой файл</button>
+        </div>
+
+        <div class="table-wrap">
+          <table id="tbl">
+            <thead>
+              <tr>
+                <th data-k="tab">Таб. №</th>
+                <th data-k="name">Сотрудник</th>
+                <th data-k="t_in">Вход</th>
+                <th data-k="t_out">Выход</th>
+                <th data-k="can_leave_min">Уйти не раньше</th>
+                <th data-k="net_min">Зачёт (−обед)</th>
+                <th data-k="delta_min">Отклонение</th>
+                <th data-k="reason">Комментарий</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+        <p id="empty" class="muted" hidden>Ничего не найдено по фильтру.</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
