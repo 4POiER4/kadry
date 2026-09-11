@@ -101,20 +101,28 @@ check("202 late flag", tst["202"]["late"], True)
 check("202 can_leave от факта 9:20+9:00", tst["202"]["can_leave"], "18:20")
 check("onwork в counts", tres["meta"]["counts"]["onwork"], 2)
 
-print("\nПятница (норма присутствия 8:15, зачёт 7:30):")
+print("\nПятница (норма присутствия 7:45, зачёт 7:00):")
 frows = [
     TITLE, [], FRI_HEADER,
     row("101", "Пришёл 8:45, ушёл 17:00 (8:15 — норма)", dt.time(8, 45), dt.time(17, 0)),
-    row("102", "Пришёл 8:00, ушёл 16:00 (8:00 — недоработка)", dt.time(8, 0), dt.time(16, 0)),
+    row("102", "Пришёл 8:00, ушёл 15:30 (7:30 — недоработка)", dt.time(8, 0), dt.time(15, 30)),
 ]
 fres = analyze(frows, "auto")
 check("day_type fri", fres["meta"]["day_type"], "fri")
-check("required_presence fri", fres["meta"]["required_presence"], "8:15")
+check("required_presence fri", fres["meta"]["required_presence"], "7:45")
+check("required_net fri", fres["meta"]["required_net"], "7:00")
 fst = {r["tab"]: r["status"] for r in fres["rows"]}
 check("101 green", fst["101"], "green")
 check("102 red", fst["102"], "red")
 r101 = next(r for r in fres["rows"] if r["tab"] == "101")
-check("101 can_leave 8:45+8:15 (пятница)", r101["can_leave"], "17:00")
+check("101 can_leave 8:45+7:45 (пятница)", r101["can_leave"], "16:30")
+
+samus_rows = [
+    TITLE, [], FRI_HEADER,
+    row("0000022044", "Самусь Елена Ивановна, пришла 8:21", dt.time(8, 21), "00:00"),
+]
+samus = analyze(samus_rows, "auto")["rows"][0]
+check("Самусь can_leave 8:21+7:45 (пятница)", samus["can_leave"], "16:06")
 
 print("\nРучной выбор дня перекрывает авто:")
 mres = analyze(rows, "fri")

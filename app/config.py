@@ -22,7 +22,7 @@ class Settings:
         self.arrival_start = parse_minutes(os.getenv("ARRIVAL_WINDOW_START", "08:00"))
         self.arrival_end = parse_minutes(os.getenv("ARRIVAL_WINDOW_END", "09:00"))
         self.required_week = parse_minutes(os.getenv("REQUIRED_PRESENCE_MON_THU", "9:00"))
-        self.required_fri = parse_minutes(os.getenv("REQUIRED_PRESENCE_FRI", "8:15"))
+        self.required_fri = parse_minutes(os.getenv("REQUIRED_PRESENCE_FRI", "7:45"))
 
 
 settings = Settings()
