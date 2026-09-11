@@ -20,9 +20,9 @@ class Settings:
 
         self.lunch_min = parse_minutes(os.getenv("LUNCH_MINUTES", "45"))
         self.arrival_start = parse_minutes(os.getenv("ARRIVAL_WINDOW_START", "08:00"))
-        self.arrival_end = parse_minutes(os.getenv("ARRIVAL_WINDOW_END", "09:00"))
-        self.required_week = parse_minutes(os.getenv("REQUIRED_PRESENCE_MON_THU", "9:00"))
-        self.required_fri = parse_minutes(os.getenv("REQUIRED_PRESENCE_FRI", "7:45"))
+        self.arrival_end = parse_minutes(os.getenv("ARRIVAL_WINDOW_END", "08:58"))
+        self.required_week = parse_minutes(os.getenv("REQUIRED_PRESENCE_MON_THU", "9:02"))
+        self.required_fri = parse_minutes(os.getenv("REQUIRED_PRESENCE_FRI", "7:47"))
 
 
 settings = Settings()
