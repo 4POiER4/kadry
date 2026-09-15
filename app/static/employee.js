@@ -113,8 +113,6 @@ function render(matches, truncated) {
     const reason = node.querySelector(".rc-reason");
     let txt = m.reason || "";
     if (m.status === "green" && m.t_out) txt = `Ушли в ${m.t_out}. ${txt}`;
-    if (m.status === "onwork" && m.late)
-      txt = "Вы пришли позже 09:00 — время ухода посчитано от факта прихода.";
     reason.textContent = txt;
     reason.hidden = !txt;
 

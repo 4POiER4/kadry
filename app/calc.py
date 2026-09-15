@@ -168,11 +168,12 @@ def analyze(rows: list[list[Any]], day_type_request: str = "auto") -> dict[str, 
 
         if out_m is None:
             # Пришёл, но выхода ещё нет
-            if report_is_today:
+            if late:
+                rec["status"] = STATUS_RED
+                rec["reason"] = f"Поздний приход ({fmt(in_m)} позже {fmt(settings.arrival_end)})"
+            elif report_is_today:
                 rec["status"] = STATUS_ONWORK
                 rec["reason"] = "На работе — ухода ещё нет"
-                if late:
-                    rec["reason"] += f"; поздний приход (позже {fmt(settings.arrival_end)})"
             else:
                 rec["status"] = STATUS_RED
                 rec["reason"] = "Неполные отметки: нет выхода"

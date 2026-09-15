@@ -80,7 +80,7 @@ r004 = next(r for r in res["rows"] if r["tab"] == "004")
 check("004 reason has late", "Поздний приход" in r004["reason"], True)
 check("004 can_leave от факта (9:15+9:02)", r004["can_leave"], "18:17")
 
-print("\nУтренний файл за сегодня: пришёл, выхода ещё нет -> «на работе»:")
+print("\nУтренний файл за сегодня: пришёл, выхода ещё нет -> «на работе» (или «нарушение», если поздно):")
 today = dt.date.today()
 th = [
     "Таб. №", "Сотрудник", "Подразделение", "Должность",
@@ -94,12 +94,14 @@ trows = [
 ]
 tres = analyze(trows, "week")
 tst = {r["tab"]: r for r in tres["rows"]}
-check("201 onwork", tst["201"]["status"], "onwork")
+check("201 onwork (вовремя)", tst["201"]["status"], "onwork")
 check("201 can_leave 8:30+9:02", tst["201"]["can_leave"], "17:32")
-check("202 onwork", tst["202"]["status"], "onwork")
+check("202 red (опоздал, ещё на работе -> нарушение)", tst["202"]["status"], "red")
 check("202 late flag", tst["202"]["late"], True)
+check("202 reason", tst["202"]["reason"], "Поздний приход (9:20 позже 8:58)")
 check("202 can_leave от факта 9:20+9:02", tst["202"]["can_leave"], "18:22")
-check("onwork в counts", tres["meta"]["counts"]["onwork"], 2)
+check("onwork в counts", tres["meta"]["counts"]["onwork"], 1)
+check("red в counts (опоздавший на работе)", tres["meta"]["counts"]["red"], 1)
 
 print("\nПятница (окно прихода 8:00–8:58, норма присутствия 7:47, зачёт 7:02):")
 frows = [
